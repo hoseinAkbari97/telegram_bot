@@ -2,6 +2,7 @@ import os
 import telebot
 from dotenv import load_dotenv
 import pprint
+import json
 
 
 load_dotenv()
@@ -15,11 +16,13 @@ bot = telebot.TeleBot(API_TOKEN)
 # Handle '/start' and '/help'
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):
-    bot.reply_to(message, """\
-Hi there, I am EchoBot.
-I am here to echo your kind words back to you. Just say anything nice and I'll say the exact same thing to you!\
-""")
-    pprint.pprint(message)
-    print(message)
+#     bot.reply_to(message, """\
+# Hi there, I am EchoBot.
+# I am here to echo your kind words back to you. Just say anything nice and I'll say the exact same thing to you!\
+# """)
+#     pprint.pprint(message.chat.__dict__, width=4)
+    bot.send_message(
+        message.chat.id,
+        json.dumps(message.chat.__dict__, indent=4, ensure_ascii=False))
 
 bot.infinity_polling()
