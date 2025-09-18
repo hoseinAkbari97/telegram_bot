@@ -37,5 +37,12 @@ def handle_docs_audio(message):
 @bot.message_handler(regexp="ali")
 def handle_message(message):
 	print("hi")
+     
+def check_hello(message):
+    return message.text == "hello"
+
+@bot.message_handler(func=check_hello)
+def handle_hello_message(message):
+    print("Triggered")
 
 bot.infinity_polling()
