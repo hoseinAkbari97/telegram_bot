@@ -24,5 +24,18 @@ def send_welcome(message):
     bot.send_message(
         message.chat.id,
         json.dumps(message.chat.__dict__, indent=4, ensure_ascii=False))
+    
+# Handles all sent documents and audio files
+@bot.message_handler(content_types=['document', 'audio'])
+def handle_docs_audio(message):
+    if message.content_type == "document":
+        print("It's a document")
+    elif message.content_type == "audio":
+        print("It's an audio")
+
+# Handles all text messages that match the regular expression
+@bot.message_handler(regexp="ali")
+def handle_message(message):
+	print("hi")
 
 bot.infinity_polling()
