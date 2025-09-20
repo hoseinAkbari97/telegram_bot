@@ -45,4 +45,8 @@ def check_hello(message):
 def handle_hello_message(message):
     print("Triggered")
 
+@bot.message_handler(func=lambda message: True)
+def handle_edited_message(message):
+    print("edited message is received")
+
 bot.infinity_polling()
