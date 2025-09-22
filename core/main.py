@@ -61,8 +61,31 @@ def check_hello(message):
 def handle_hello_message(message):
     print("Triggered")
 
-@bot.message_handler(func=lambda message: True)
-def handle_edited_message(message):
-    print("edited message is received")
+@bot.message_handler(commands=['outbound'])
+def outbound_count(message):
+    conn = None  
+    cursor = None  
+    try:
+        conn = mysql.connector.connect(**master_conn_info)
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM outbound_messages")
+        result = cursor.fetchone()
+        count = result if result and result is not None else 0
+        bot.send_message(message.chat.id, f"Total outbound messages: {count}")
+    except mysql.connector.Error as err:
+        bot.send_message(message.chat.id, f"Error: {err}")
+    except IndexError:
+        # Handle the case where fetchone() returns an empty tuple
+        bot.send_message(message.chat.id, f"Error: No count returned from the query.")
+    finally:
+        # These checks will now safely handle the case where the variables were never assigned
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+# @bot.message_handler(func=lambda message: True)
+# def handle_edited_message(message):
+#     print("edited message is received")
 
 bot.infinity_polling()
