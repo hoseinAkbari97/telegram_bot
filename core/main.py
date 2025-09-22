@@ -3,9 +3,25 @@ import telebot
 from dotenv import load_dotenv
 import pprint
 import json
+import mysql.connector
 
 
 load_dotenv()
+
+# --- Database connection info from .env ---
+archive_conn_info = {
+    "host": os.getenv("ARCHIVE_HOST"),
+    "user": os.getenv("ARCHIVE_USER"),
+    "password": os.getenv("ARCHIVE_PASSWORD"),
+    "database": os.getenv("ARCHIVE_DB")
+}
+
+master_conn_info = {
+    "host": os.getenv("MASTER_HOST"),
+    "user": os.getenv("MASTER_USER"),
+    "password": os.getenv("MASTER_PASSWORD"),
+    "database": os.getenv("MASTER_DB")
+}
 
 API_TOKEN = os.environ.get("API_TOKEN")
 if API_TOKEN is None:
