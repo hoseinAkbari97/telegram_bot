@@ -10,6 +10,8 @@ apihelper.ENABLE_MIDDLEWARE = True
 logger = telebot.logger
 telebot.logger.setLevel(logging.INFO)
 
+# This is a test
+
 
 load_dotenv()
 
