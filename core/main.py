@@ -10,9 +10,6 @@ apihelper.ENABLE_MIDDLEWARE = True
 logger = telebot.logger
 telebot.logger.setLevel(logging.INFO)
 
-# This is a test
-
-
 load_dotenv()
 
 API_TOKEN = os.environ.get("API_TOKEN")
