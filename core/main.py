@@ -28,15 +28,15 @@ def send_welcome(message):
     
 
 
-@bot.middleware_handler(update_types=['message'])
-def modify_message(bot_instance, message):
-    print("Middleware triggered")
-    # You can modify the message object here if needed
-    message.another_text = ":changed by middleware"
+# @bot.middleware_handler(update_types=['message'])
+# def modify_message(bot_instance, message):
+#     print("Middleware triggered")
+#     # You can modify the message object here if needed
+#     message.another_text = ":changed by middleware"
 
-@bot.message_handler(func=lambda message: True)
-def reply_modified_message(message):
-    bot.reply_to(message, message.another_text)
+# @bot.message_handler(func=lambda message: True)
+# def reply_modified_message(message):
+#     bot.reply_to(message, message.another_text)
 
 # Handles all sent documents and audio files
 @bot.message_handler(content_types=['document', 'audio'])
@@ -61,5 +61,14 @@ def handle_hello_message(message):
 @bot.edited_message_handler(func=lambda message:True)
 def handle_edited_message(message):
     print("edited message is received")
+
+@bot.message_handler(commands=['setname'])
+def setup_name(message):
+    bot.send_message(message.chat.id, "Please send me your name.")
+    bot.register_next_step_handler(message, callback=assign_name)
+
+def assign_name(message):
+    name = message.text
+    bot.send_message(message.chat.id, f"Your name has been set to {name}.")
 
 bot.infinity_polling()
