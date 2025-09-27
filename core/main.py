@@ -65,10 +65,15 @@ def handle_edited_message(message):
 @bot.message_handler(commands=['setname'])
 def setup_name(message):
     bot.send_message(message.chat.id, "Please send me your name.")
-    bot.register_next_step_handler(message, callback=assign_name)
+    bot.register_next_step_handler(message, callback=assign_first_name)
 
-def assign_name(message):
-    name = message.text
-    bot.send_message(message.chat.id, f"Your name has been set to {name}.")
+def assign_first_name(message, *args, **kwargs):
+    first_name = message.text
+    bot.send_message(message.chat.id, "What is your last name?")
+    bot.register_next_step_handler(message, callback=assign_last_name, first_name=first_name)
+
+def assign_last_name(message, first_name):
+    last_name = message.text
+    bot.send_message(message.chat.id, f"Your full name is {first_name} {last_name}.")
 
 bot.infinity_polling()
