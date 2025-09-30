@@ -23,7 +23,7 @@ bot = telebot.TeleBot(API_TOKEN)
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     logger.info("triggered welcome") 
-    markup = ReplyKeyboardMarkup(resize_keyboard=True, input_field_placeholder="Choose you option")
+    markup = ReplyKeyboardMarkup(resize_keyboard=True, input_field_placeholder="Choose you option", one_time_keyboard=True)
     markup.add(KeyboardButton('help'), KeyboardButton('about'))
     
     bot.send_message(
