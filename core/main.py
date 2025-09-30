@@ -30,7 +30,14 @@ def send_welcome(message):
         message.chat.id,
         "Hi This is a test", reply_markup=markup)
     
+@bot.message_handler(func = lambda message: message.text == "about")
+def send_about(message):
+    bot.send_message(message.chat.id, """We are a very powerfull company""")
 
+@bot.message_handler(func = lambda message: message.text == "help")
+def send_help(message):
+    bot.send_message(message.chat.id, """What is wrong my friend?""")
+    
 # Handles all sent documents and audio files
 @bot.message_handler(content_types=['document', 'audio'])
 def handle_docs_audio(message):
