@@ -1,6 +1,7 @@
 import os
 import telebot
 from telebot import apihelper
+from telebot.types import ReplyKeyboardMarkup, KeyboardButton
 from dotenv import load_dotenv
 import json
 import logging
@@ -19,24 +20,17 @@ if API_TOKEN is None:
 bot = telebot.TeleBot(API_TOKEN)
 
 # Handle '/start' and '/help'
-@bot.message_handler(commands=['help', 'start'])
+@bot.message_handler(commands=['start'])
 def send_welcome(message):
     logger.info("triggered welcome") 
+    markup = ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add(KeyboardButton('Text'))
+    markup.add('Text')
+    
     bot.send_message(
         message.chat.id,
-        json.dumps(message.chat.__dict__, indent=4, ensure_ascii=False))
+        "Hi This is a test", reply_markup=markup)
     
-
-
-# @bot.middleware_handler(update_types=['message'])
-# def modify_message(bot_instance, message):
-#     print("Middleware triggered")
-#     # You can modify the message object here if needed
-#     message.another_text = ":changed by middleware"
-
-# @bot.message_handler(func=lambda message: True)
-# def reply_modified_message(message):
-#     bot.reply_to(message, message.another_text)
 
 # Handles all sent documents and audio files
 @bot.message_handler(content_types=['document', 'audio'])
