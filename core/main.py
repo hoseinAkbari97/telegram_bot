@@ -2,6 +2,7 @@ import os
 import telebot
 from telebot import apihelper
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from dotenv import load_dotenv
 import json
 import logging
@@ -23,20 +24,27 @@ bot = telebot.TeleBot(API_TOKEN)
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     logger.info("triggered welcome") 
-    markup = ReplyKeyboardMarkup(resize_keyboard=True, input_field_placeholder="Choose you option", one_time_keyboard=True)
-    markup.add(KeyboardButton('help'), KeyboardButton('about'))
+    # markup = ReplyKeyboardMarkup(resize_keyboard=True, input_field_placeholder="Choose you option", one_time_keyboard=True)
+    # markup.add(KeyboardButton('help'), KeyboardButton('about'))
+    markup = InlineKeyboardMarkup()
+
+    button_google = InlineKeyboardButton("google", url="https://google.com")
+    button_youtube = InlineKeyboardButton("youtube", url="https://youtube.com")
+
+    markup.add(button_google)
+    markup.add(button_youtube)
     
     bot.send_message(
         message.chat.id,
         "Hi This is a test", reply_markup=markup)
     
-@bot.message_handler(func = lambda message: message.text == "about")
-def send_about(message):
-    bot.send_message(message.chat.id, """We are a very powerfull company""")
+# @bot.message_handler(func = lambda message: message.text == "about")
+# def send_about(message):
+#     bot.send_message(message.chat.id, """We are a very powerfull company""")
 
-@bot.message_handler(func = lambda message: message.text == "help")
-def send_help(message):
-    bot.send_message(message.chat.id, """What is wrong my friend?""")
+# @bot.message_handler(func = lambda message: message.text == "help")
+# def send_help(message):
+#     bot.send_message(message.chat.id, """What is wrong my friend?""")
     
 # Handles all sent documents and audio files
 @bot.message_handler(content_types=['document', 'audio'])
