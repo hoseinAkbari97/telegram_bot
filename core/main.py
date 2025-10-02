@@ -30,13 +30,20 @@ def send_welcome(message):
 
     button_google = InlineKeyboardButton("google", url="https://google.com")
     button_youtube = InlineKeyboardButton("youtube", url="https://youtube.com")
+    button_test = InlineKeyboardButton("test", callback_data="test")
 
     markup.add(button_google)
     markup.add(button_youtube)
+    markup.add(button_test)
     
     bot.send_message(
         message.chat.id,
         "Hi This is a test", reply_markup=markup)
+    
+@bot.callback_query_handler(func=lambda call:True)
+def reply_call(call):
+    if call.data == "test":
+        bot.answer_callback_query(call.id, "Clicked on test", show_alert=True)
     
 # @bot.message_handler(func = lambda message: message.text == "about")
 # def send_about(message):
