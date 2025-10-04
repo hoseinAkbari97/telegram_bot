@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 import json
 import logging
 
-apihelper.ENABLE_MIDDLEWARE = True
+# apihelper.ENABLE_MIDDLEWARE = True
 
 logger = telebot.logger
 telebot.logger.setLevel(logging.INFO)
