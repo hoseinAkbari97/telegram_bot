@@ -40,20 +40,26 @@ def send_welcome(message):
         message.chat.id,
         "Hi This is a test", reply_markup=markup)
     
-@bot.callback_query_handler(func=lambda call:True)
+@bot.callback_query_handler(func=lambda call: True)
 def reply_call(call):
     if call.data == "step1":
         markup = InlineKeyboardMarkup()
         button_step2 = InlineKeyboardButton("step2", callback_data="step2")
         button_cancel = InlineKeyboardButton("cancel", callback_data="cancel")
         markup.add(button_step2, button_cancel)
-        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.id, text="Choose your next step", reply_markup=markup)
-        
-    elif call.data == "step2":
+        bot.edit_message_text(
+            chat_id=call.message.chat.id,
+            message_id=call.message.message_id,
+            text="Choose your next step",
+            reply_markup=markup
+        )
+
+    if call.data == "step2":
         bot.send_message(call.message.chat.id, "Done")
-        
-    elif call.data == "step2":
+
+    if call.data == "cancel":
         bot.answer_callback_query(call.id, "The process has been cancelled", show_alert=True)
+
     
 # @bot.message_handler(func = lambda message: message.text == "about")
 # def send_about(message):
@@ -101,4 +107,4 @@ def reply_call(call):
 #     last_name = message.text
 #     bot.send_message(message.chat.id, f"Your full name is {first_name} {last_name}.")
 
-# bot.infinity_polling()
+bot.infinity_polling()
