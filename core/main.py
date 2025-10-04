@@ -55,10 +55,19 @@ def reply_call(call):
         )
 
     if call.data == "step2":
-        bot.send_message(call.message.chat.id, "Done")
+        bot.edit_message_text(
+            chat_id=call.message.chat.id,
+            message_id=call.message.message_id,
+            text="You are goorba"
+            )
 
     if call.data == "cancel":
         bot.answer_callback_query(call.id, "The process has been cancelled", show_alert=True)
+        bot.delete_message(
+            chat_id=call.message.chat.id,
+            message_id=call.message.message_id,
+            timeout=5
+        )
 
     
 # @bot.message_handler(func = lambda message: message.text == "about")
