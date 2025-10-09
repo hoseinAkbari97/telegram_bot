@@ -42,8 +42,33 @@ def send_welcome(message):
     
 @bot.callback_query_handler(func=lambda call: True)
 def reply_call(call):
-    if call.data == "test":
-        bot.answer_callback_query(call.id, "Clicked on test", show_alert=True)
+    if call.data == "step1":
+        markup = InlineKeyboardMarkup()
+        button_step2 = InlineKeyboardButton("step2", callback_data="step2")
+        button_cancel = InlineKeyboardButton("cancel", callback_data="cancel")
+        markup.add(button_step2, button_cancel)
+        bot.edit_message_text(
+            chat_id=call.message.chat.id,
+            message_id=call.message.message_id,
+            text="Choose your next step",
+            reply_markup=markup
+        )
+
+    if call.data == "step2":
+        bot.edit_message_text(
+            chat_id=call.message.chat.id,
+            message_id=call.message.message_id,
+            text="You are goorba"
+            )
+
+    if call.data == "cancel":
+        bot.answer_callback_query(call.id, "The process has been cancelled", show_alert=True)
+        bot.delete_message(
+            chat_id=call.message.chat.id,
+            message_id=call.message.message_id,
+            timeout=5
+        )
+
     
 # @bot.message_handler(func = lambda message: message.text == "about")
 # def send_about(message):
