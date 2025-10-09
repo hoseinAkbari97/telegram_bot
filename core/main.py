@@ -44,6 +44,7 @@ def send_welcome(message):
 def reply_call(call):
     if call.data == "test":
         bot.answer_callback_query(call.id, "Clicked on test", show_alert=True)
+        # This is a comment test
     
 # @bot.message_handler(func = lambda message: message.text == "about")
 # def send_about(message):
