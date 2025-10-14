@@ -74,5 +74,11 @@ def send_voice_file(message):
     voice_file = open("./docs/test/files/test.mp3", "rb")
     bot.send_chat_action(message.chat.id, action="upload_voice")
     bot.send_voice(message.chat.id, voice_file)
+    
+@bot.message_handler(commands=['test_video'])
+def send_video_file(message):
+    video_file = open("./docs/test/files/test.avi", "rb")
+    bot.send_chat_action(message.chat.id, action="upload_video")
+    bot.send_video(message.chat.id, video_file)
 
 bot.infinity_polling()
