@@ -72,6 +72,7 @@ def reply_call(call):
 @bot.message_handler(commands=['test_voice'])
 def send_voice_file(message):
     voice_file = open("./docs/test/files/test.mp3", "rb")
+    bot.send_chat_action(message.chat.id, action="upload_voice")
     bot.send_voice(message.chat.id, voice_file)
 
 bot.infinity_polling()
