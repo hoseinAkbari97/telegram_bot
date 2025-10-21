@@ -6,7 +6,11 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from dotenv import load_dotenv
 import json
 import logging
+import sqlite3
 
+# Connecting to sqlite3
+conn = sqlite3.connect('files.db')
+cursor = conn.cursor()
 # apihelper.ENABLE_MIDDLEWARE = True
 
 logger = telebot.logger
