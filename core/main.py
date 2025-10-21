@@ -67,9 +67,13 @@ def reply_call(call):
             timeout=5
         )
 
-@bot.message_handler(commands=['test_document'])
+@bot.message_handler(commands=['upload_test'])
 def send_document_file(message):
     bot.send_chat_action(message.chat.id, action="upload_document")
-    bot.send_document(message.chat.id, open("./docs/test/files/test.pdf", "rb"))
+    bot.send_document(message.chat.id, "BQACAgQAAxkBAAIBv2j3MNSv2mOPBoJnRbM71tCaHfPHAALAJwAC-8-4U1nOUn_ztISPNgQ")
+    
+@bot.message_handler(content_types=["document", "audio", "voice", "video", "photo"])
+def check_id(message):
+    logger.info(message.__dict__)
 
 bot.infinity_polling()
