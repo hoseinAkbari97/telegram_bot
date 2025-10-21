@@ -24,8 +24,6 @@ bot = telebot.TeleBot(API_TOKEN)
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     logger.info("triggered welcome") 
-    # markup = ReplyKeyboardMarkup(resize_keyboard=True, input_field_placeholder="Choose you option", one_time_keyboard=True)
-    # markup.add(KeyboardButton('help'), KeyboardButton('about'))
     markup = InlineKeyboardMarkup()
 
     button_google = InlineKeyboardButton("google", url="https://google.com")
@@ -69,16 +67,9 @@ def reply_call(call):
             timeout=5
         )
 
-@bot.message_handler(commands=['test_voice'])
-def send_voice_file(message):
-    voice_file = open("./docs/test/files/test.mp3", "rb")
-    bot.send_chat_action(message.chat.id, action="upload_voice")
-    bot.send_voice(message.chat.id, voice_file)
-    
-@bot.message_handler(commands=['test_video'])
-def send_video_file(message):
-    video_file = open("./docs/test/files/test.avi", "rb")
-    bot.send_chat_action(message.chat.id, action="upload_video")
-    bot.send_video(message.chat.id, video_file)
+@bot.message_handler(commands=['test_document'])
+def send_document_file(message):
+    bot.send_chat_action(message.chat.id, action="upload_document")
+    bot.send_document(message.chat.id, open("./docs/test/files/test.pdf", "rb"))
 
 bot.infinity_polling()
