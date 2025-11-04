@@ -94,12 +94,6 @@ def query_handler(query):
             description='This is a description'
         )
     )
-    
-@bot.inline_handler(func=lambda query:True)
-def query_handler(query):
-    logger.info(query)
-    results = []
-    
     results.append(
         InlineQueryResultArticle(
             id='2',
