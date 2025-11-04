@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 import json
 import logging
 import sqlite3
+from telebot.types import InlineQueryResultArticle, InputTextMessageContent
 
 # Connecting to sqlite3
 conn = sqlite3.connect('files.db')
@@ -79,5 +80,35 @@ def send_document_file(message):
 @bot.message_handler(content_types=["document", "audio", "voice", "video", "photo"])
 def check_id(message):
     logger.info(message.__dict__)
+    
+@bot.inline_handler(func=lambda query:True)
+def query_handler(query):
+    logger.info(query)
+    results = []
+    
+    results.append(
+        InlineQueryResultArticle(
+            id='1',
+            title='This is a test',
+            input_message_content=InputTextMessageContent(message_text='This is the main response'),
+            description='This is a description'
+        )
+    )
+    
+@bot.inline_handler(func=lambda query:True)
+def query_handler(query):
+    logger.info(query)
+    results = []
+    
+    results.append(
+        InlineQueryResultArticle(
+            id='2',
+            title='Join the Bot',
+            input_message_content=InputTextMessageContent(message_text='Join the bot'),
+            url='https://t.me/cando_helper_bot'
+        )
+    )
+    
+    bot.answer_inline_query(query.id, results, cache_time=0)
 
 bot.infinity_polling()
