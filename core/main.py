@@ -104,5 +104,10 @@ def query_handler(query):
     )
     
     bot.answer_inline_query(query.id, results, cache_time=0)
+    
+# This is a test of implementation of markdown or html in this bot
+@bot.message_handler(func= lambda message: True)
+def handle_messages(message):
+    bot.send_message(message.chat.id, "*bold text*", parse_mode="MarkDown")
 
 bot.infinity_polling()
