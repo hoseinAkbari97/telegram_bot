@@ -40,4 +40,9 @@ def delete_message(message):
     except Exception as e:
         print(f"Failed to delete message: {e}")
 
+@bot.message_handler(func=lambda message: 'spam' in message.text.lower())
+def handle_spam(message):
+    bot.delete_message(message.chat.id, message.message_id)
+    bot.reply_to(message, "Spam messages are not allowed!")
+
 bot.infinity_polling()
