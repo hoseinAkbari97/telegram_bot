@@ -33,4 +33,11 @@ def handle_all_messages(message):
 def greet_user(message):
     bot.reply_to(message, "Hello! How can I assist you today?")
 
+@bot.message_handler(commands=['delete'])
+def delete_message(message):
+    try:
+        bot.delete_message(message.chat.id, message.message_id)
+    except Exception as e:
+        print(f"Failed to delete message: {e}")
+
 bot.infinity_polling()
