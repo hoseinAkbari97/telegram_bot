@@ -1,6 +1,6 @@
 import os
 import telebot
-from telebot import apihelper
+from telebot import apihelper, types
 from dotenv import load_dotenv
 import json
 import logging
@@ -249,6 +249,18 @@ def clear_spam_data(message):
             bot.reply_to(message, "✅ Spam detection data cleared!")
     except Exception as e:
         logger.error(f"Error in clearspam: {e}")
+        
+@bot.chat_member_handler()
+def handle_new_chat_members(message: types.ChatMemberUpdated):
+    if message.new_chat_member.status == 'member':
+        bot.approve_chat_join_request(message.chat.id, message.from_user.id)
+        bot.send_message(message.chat.id, f"Welcome {message.from_user.first_name}!")
+        
+@bot.chat_join_request_handler()
+def handle_join_request(message: types.ChatJoinRequest):
+    user = message.from_user
+    bot.approve_chat_join_request(message.chat.id, user.id)
+    bot.send_message(message.chat.id, f"Welcome to the group, {user.first_name}!")
 
 if __name__ == '__main__':
     bot_info = bot.get_me()
